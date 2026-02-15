@@ -5,3 +5,7 @@ edition = "2024"
 
 [dependencies]
 clap = { version = "4.5.28", features = ["derive"] }
+crossterm = "0.28.1"
+strip-ansi-escapes = "0.2.0"
+unicode-width = "0.2.0"
+chrono = { version = "0.4.38", default-features = true, features = ["clock", "std"] }
