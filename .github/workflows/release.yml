@@ -50,3 +50,16 @@ jobs:
           files: |
             dist/watch-${{ env.TARGET }}.zip
             dist/SHA256SUMS.txt
+
+      - name: Notify bucket
+        if: ${{ secrets.BUCKET_PAT != '' }}
+        shell: pwsh
+        env:
+          BUCKET_PAT: ${{ secrets.BUCKET_PAT }}
+        run: |
+          $body = @{ event_type = "checkver" } | ConvertTo-Json
+          Invoke-RestMethod -Method Post -Uri "https://api.github.com/repos/i-rocky/bucket/dispatches" -Headers @{
+            Authorization = "token $env:BUCKET_PAT"
+            Accept = "application/vnd.github+json"
+            "User-Agent" = "watch-release"
+          } -Body $body
