@@ -3,7 +3,7 @@ use std::time::{Duration, Instant};
 
 use crossterm::cursor::{Hide, Show};
 use crossterm::event::{self, Event};
-use crossterm::terminal;
+use crossterm::terminal::{self, EnterAlternateScreen, LeaveAlternateScreen};
 use crossterm::execute;
 
 use crate::input::{action_from_event, Action};
@@ -14,7 +14,7 @@ impl TerminalGuard {
     pub fn new() -> io::Result<Self> {
         terminal::enable_raw_mode()?;
         let mut stdout = io::stdout();
-        execute!(stdout, Hide)?;
+        execute!(stdout, EnterAlternateScreen, Hide)?;
         Ok(Self)
     }
 }
@@ -23,7 +23,7 @@ impl Drop for TerminalGuard {
     fn drop(&mut self) {
         let _ = terminal::disable_raw_mode();
         let mut stdout = io::stdout();
-        let _ = execute!(stdout, Show);
+        let _ = execute!(stdout, Show, LeaveAlternateScreen);
     }
 }
 

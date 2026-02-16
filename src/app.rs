@@ -102,16 +102,10 @@ pub fn run(config: Config) -> Result<i32, AppError> {
         frame.extend(output_lines);
 
         if config.follow {
-            for line in &frame {
-                stdout.write_all(line.as_bytes())?;
-                stdout.write_all(b"\n")?;
-            }
+            write_frame(&mut stdout, &frame)?;
         } else {
             execute!(stdout, Clear(ClearType::All), MoveTo(0, 0))?;
-            for line in &frame {
-                stdout.write_all(line.as_bytes())?;
-                stdout.write_all(b"\n")?;
-            }
+            write_frame(&mut stdout, &frame)?;
         }
         stdout.flush()?;
 
@@ -163,4 +157,15 @@ fn visible_output(frame: &[String], header_lines: usize) -> String {
         .cloned()
         .collect::<Vec<_>>()
         .join("\n")
+}
+
+fn write_frame(stdout: &mut impl Write, frame: &[String]) -> Result<(), AppError> {
+    let last = frame.len().saturating_sub(1);
+    for (idx, line) in frame.iter().enumerate() {
+        stdout.write_all(line.as_bytes())?;
+        if idx != last {
+            stdout.write_all(b"\n")?;
+        }
+    }
+    Ok(())
 }
