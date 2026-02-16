@@ -9,12 +9,11 @@ GNU `watch` for Windows that feels like Linux/macOS.
 - Screenshot capture (`-s` while running, saves to `--shotsdir`).
 
 ## Install
-### Scoop (planned)
-This repo publishes a release zip and SHA256SUMS for Scoop manifests.
-
-Release assets:
-- `watch-x86_64-pc-windows-msvc.zip`
-- `SHA256SUMS.txt`
+### Scoop
+```powershell
+scoop bucket add rocky https://github.com/i-rocky/bucket
+scoop install watch
+```
 
 ### Cargo
 ```sh
