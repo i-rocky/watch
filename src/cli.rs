@@ -50,7 +50,7 @@ pub struct Cli {
     #[arg(short = 't', long = "no-title", action = ArgAction::SetTrue)]
     pub no_title: bool,
 
-    #[arg(short = 'w', long = "no-wrap", action = ArgAction::SetTrue)]
+    #[arg(short = 'w', long = "no-wrap", alias = "no-linewrap", action = ArgAction::SetTrue)]
     pub no_wrap: bool,
 
     #[arg(short = 'x', long = "exec", action = ArgAction::SetTrue)]

@@ -5,8 +5,19 @@ fn main() {
             err.exit();
         }
     };
-    if let Err(err) = watch::Config::from_cli(cli) {
-        eprintln!("watch: {err}");
-        std::process::exit(2);
+    let config = match watch::Config::from_cli(cli) {
+        Ok(config) => config,
+        Err(err) => {
+            eprintln!("watch: {err}");
+            std::process::exit(2);
+        }
+    };
+
+    match watch::app::run(config) {
+        Ok(code) => std::process::exit(code),
+        Err(err) => {
+            eprintln!("watch: {err}");
+            std::process::exit(2);
+        }
     }
 }

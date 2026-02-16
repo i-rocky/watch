@@ -14,6 +14,15 @@ pub struct ExecOutput {
     pub status: ExitStatus,
 }
 
+impl ExecOutput {
+    pub fn combined(&self) -> Vec<u8> {
+        let mut out = Vec::with_capacity(self.stdout.len() + self.stderr.len());
+        out.extend_from_slice(&self.stdout);
+        out.extend_from_slice(&self.stderr);
+        out
+    }
+}
+
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub enum ExecError {
     MissingCommand,

@@ -63,6 +63,10 @@ impl Config {
             None
         };
 
+        if cli.follow && (differences.is_some() || cli.chgexit || cli.equexit.is_some()) {
+            return Err("option --follow is not compatible with output tracking options".to_string());
+        }
+
         Ok(Self {
             interval,
             precise: cli.precise,
@@ -142,5 +146,12 @@ mod tests {
         let cli = Cli::parse_from_iter(["watch", "-c", "-C", "echo", "hi"]).unwrap();
         let err = Config::from_cli(cli).unwrap_err();
         assert!(err.contains("mutually exclusive"));
+    }
+
+    #[test]
+    fn config_rejects_follow_with_tracking_options() {
+        let cli = Cli::parse_from_iter(["watch", "-f", "-d", "echo", "hi"]).unwrap();
+        let err = Config::from_cli(cli).unwrap_err();
+        assert!(err.contains("follow"));
     }
 }

@@ -3,6 +3,7 @@ use crossterm::event::{Event, KeyCode, KeyEvent, KeyModifiers};
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum Action {
     Quit,
+    Screenshot,
     Trigger,
 }
 
@@ -17,6 +18,7 @@ fn action_from_key(key: KeyEvent) -> Option<Action> {
     match (key.code, key.modifiers) {
         (KeyCode::Char('q'), _) | (KeyCode::Char('Q'), _) => Some(Action::Quit),
         (KeyCode::Char('c'), KeyModifiers::CONTROL) => Some(Action::Quit),
+        (KeyCode::Char('s'), _) | (KeyCode::Char('S'), _) => Some(Action::Screenshot),
         (KeyCode::Char(' '), _) => Some(Action::Trigger),
         _ => None,
     }
@@ -43,6 +45,14 @@ mod tests {
         assert_eq!(
             action_from_event(Event::Key(KeyEvent::from(KeyCode::Char(' ')))),
             Some(Action::Trigger)
+        );
+    }
+
+    #[test]
+    fn maps_screenshot_key() {
+        assert_eq!(
+            action_from_event(Event::Key(KeyEvent::from(KeyCode::Char('s')))),
+            Some(Action::Screenshot)
         );
     }
 }

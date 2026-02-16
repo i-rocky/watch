@@ -84,9 +84,9 @@ pub fn format_output(
     let input = String::from_utf8_lossy(output);
     let text = match color {
         ColorMode::Always => input.into_owned(),
-        ColorMode::Auto | ColorMode::Never => strip_ansi(&input),
+        ColorMode::Auto | ColorMode::Never => strip_ansi_text(&input),
     };
-    split_lines(&text, columns as usize, no_wrap)
+    format_text(&text, columns, no_wrap)
 }
 
 fn env_u16(key: &str) -> Option<u16> {
@@ -96,9 +96,13 @@ fn env_u16(key: &str) -> Option<u16> {
         .filter(|value| *value > 0)
 }
 
-fn strip_ansi(input: &str) -> String {
+pub fn strip_ansi_text(input: &str) -> String {
     let stripped = strip_ansi_escapes::strip(input.as_bytes());
     String::from_utf8_lossy(&stripped).into_owned()
+}
+
+pub fn format_text(text: &str, columns: u16, no_wrap: bool) -> Vec<String> {
+    split_lines(text, columns as usize, no_wrap)
 }
 
 fn split_lines(text: &str, width: usize, no_wrap: bool) -> Vec<String> {
