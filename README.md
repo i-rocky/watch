@@ -11,7 +11,7 @@ GNU `watch` for Windows that feels like Linux/macOS.
 ## Install
 ### Scoop
 ```powershell
-scoop bucket add rocky https://github.com/i-rocky/bucket
+scoop bucket add rocky https://github.com/i-rocky/scoop-bucket
 scoop install watch
 ```
 
