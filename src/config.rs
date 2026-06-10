@@ -48,7 +48,7 @@ impl Config {
 
         let color = match (cli.color, cli.no_color) {
             (true, true) => {
-                return Err("options --color and --no-color are mutually exclusive".to_string())
+                return Err("options --color and --no-color are mutually exclusive".to_string());
             }
             (true, false) => ColorMode::Always,
             (false, true) => ColorMode::Never,
@@ -64,7 +64,9 @@ impl Config {
         };
 
         if cli.follow && (differences.is_some() || cli.chgexit || cli.equexit.is_some()) {
-            return Err("option --follow is not compatible with output tracking options".to_string());
+            return Err(
+                "option --follow is not compatible with output tracking options".to_string(),
+            );
         }
 
         Ok(Self {
@@ -95,7 +97,9 @@ mod tests {
 
     fn env_lock() -> std::sync::MutexGuard<'static, ()> {
         static LOCK: OnceLock<Mutex<()>> = OnceLock::new();
-        LOCK.get_or_init(|| Mutex::new(())).lock().expect("env lock")
+        LOCK.get_or_init(|| Mutex::new(()))
+            .lock()
+            .expect("env lock")
     }
 
     fn with_watch_interval_env<F>(value: Option<&str>, test: F)

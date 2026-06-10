@@ -3,15 +3,15 @@ use std::time::Instant;
 
 use chrono::Local;
 use crossterm::cursor::MoveTo;
-use crossterm::terminal::{Clear, ClearType};
 use crossterm::execute;
+use crossterm::terminal::{Clear, ClearType};
 
 use crate::config::{ColorMode, Config};
 use crate::diff::DiffState;
-use crate::exec::{build_command, run_command, ExecError};
+use crate::exec::{ExecError, build_command, run_command};
 use crate::render::{format_text, header_line, strip_ansi_text, terminal_size};
 use crate::screenshot::save_screenshot;
-use crate::terminal::{wait_for_action, wait_for_keypress, TerminalGuard, WaitOutcome};
+use crate::terminal::{TerminalGuard, WaitOutcome, wait_for_action, wait_for_keypress};
 
 #[derive(Debug)]
 pub enum AppError {
@@ -133,10 +133,10 @@ pub fn run(config: Config) -> Result<i32, AppError> {
                 if config.chgexit && prev != visible {
                     return Ok(0);
                 }
-                if let Some(limit) = config.equexit {
-                    if unchanged_cycles >= limit {
-                        return Ok(0);
-                    }
+                if let Some(limit) = config.equexit
+                    && unchanged_cycles >= limit
+                {
+                    return Ok(0);
                 }
             }
             last_visible = Some(visible);

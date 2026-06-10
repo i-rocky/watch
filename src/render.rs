@@ -22,11 +22,11 @@ pub fn terminal_size() -> TerminalSize {
     let mut cols = env_u16("COLUMNS");
     let mut rows = env_u16("LINES");
 
-    if cols.is_none() || rows.is_none() {
-        if let Ok((term_cols, term_rows)) = crossterm::terminal::size() {
-            cols = cols.or(Some(term_cols));
-            rows = rows.or(Some(term_rows));
-        }
+    if (cols.is_none() || rows.is_none())
+        && let Ok((term_cols, term_rows)) = crossterm::terminal::size()
+    {
+        cols = cols.or(Some(term_cols));
+        rows = rows.or(Some(term_rows));
     }
 
     TerminalSize {
@@ -75,12 +75,7 @@ pub fn header_line_with_time(
     line
 }
 
-pub fn format_output(
-    output: &[u8],
-    columns: u16,
-    no_wrap: bool,
-    color: ColorMode,
-) -> Vec<String> {
+pub fn format_output(output: &[u8], columns: u16, no_wrap: bool, color: ColorMode) -> Vec<String> {
     let input = String::from_utf8_lossy(output);
     let text = match color {
         ColorMode::Always => input.into_owned(),
@@ -161,7 +156,7 @@ fn consume_escape_sequence(
 
     if let Some('[') = chars.peek().copied() {
         seq.push(chars.next().unwrap());
-        while let Some(next) = chars.next() {
+        for next in chars.by_ref() {
             seq.push(next);
             if ('@'..='~').contains(&next) {
                 break;

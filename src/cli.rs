@@ -5,7 +5,11 @@ use clap::{ArgAction, Parser};
 use crate::config::DifferencesMode;
 
 #[derive(Parser, Debug, Clone, PartialEq, Eq)]
-#[command(name = "watch", version, about = "Execute a program periodically, showing output fullscreen")]
+#[command(
+    name = "watch",
+    version,
+    about = "Execute a program periodically, showing output fullscreen"
+)]
 #[command(trailing_var_arg = true, allow_hyphen_values = true)]
 pub struct Cli {
     #[arg(short = 'b', long = "beep", action = ArgAction::SetTrue)]
@@ -111,11 +115,11 @@ where
             continue;
         }
 
-        if let Some(value) = raw_str.strip_prefix("-d") {
-            if !value.is_empty() {
-                out.push(format!("--differences={value}").into());
-                continue;
-            }
+        if let Some(value) = raw_str.strip_prefix("-d")
+            && !value.is_empty()
+        {
+            out.push(format!("--differences={value}").into());
+            continue;
         }
 
         out.push(raw);

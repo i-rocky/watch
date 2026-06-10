@@ -3,10 +3,10 @@ use std::time::{Duration, Instant};
 
 use crossterm::cursor::{Hide, Show};
 use crossterm::event::{self, Event};
-use crossterm::terminal::{self, EnterAlternateScreen, LeaveAlternateScreen};
 use crossterm::execute;
+use crossterm::terminal::{self, EnterAlternateScreen, LeaveAlternateScreen};
 
-use crate::input::{action_from_event, Action};
+use crate::input::{Action, action_from_event};
 
 pub struct TerminalGuard;
 

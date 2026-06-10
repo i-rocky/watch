@@ -28,16 +28,14 @@ pub fn parse_interval(input: &str) -> Result<Duration, IntervalParseError> {
     }
 
     let normalized = trimmed.replace(',', ".");
-    let mut secs: f64 = normalized.parse().map_err(|_| IntervalParseError::NotANumber)?;
+    let mut secs: f64 = normalized
+        .parse()
+        .map_err(|_| IntervalParseError::NotANumber)?;
     if secs.is_nan() || secs.is_infinite() {
         return Err(IntervalParseError::NotANumber);
     }
 
-    if secs < MIN_INTERVAL_SECS {
-        secs = MIN_INTERVAL_SECS;
-    } else if secs > MAX_INTERVAL_SECS {
-        secs = MAX_INTERVAL_SECS;
-    }
+    secs = secs.clamp(MIN_INTERVAL_SECS, MAX_INTERVAL_SECS);
 
     Ok(Duration::from_secs_f64(secs))
 }

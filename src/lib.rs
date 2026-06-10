@@ -1,6 +1,6 @@
+pub mod app;
 pub mod cli;
 pub mod config;
-pub mod app;
 pub mod diff;
 pub mod exec;
 pub mod input;

@@ -35,6 +35,14 @@ Common flags:
 - `-w, --no-wrap`: truncate long lines (alias: `--no-linewrap`)
 - `-x, --exec`: execute without a shell
 - `-f, --follow`: append output instead of clearing
+- `-p, --precise`: schedule runs on a fixed cadence instead of after each run
+- `-b, --beep`: beep when the command exits non-zero
+- `-c, --color` / `-C, --no-color`: force ANSI color handling on/off
+- `-e, --errexit`: freeze on non-zero exit, quit after a key press
+- `-g, --chgexit`: exit when the output changes
+- `-q, --equexit <cycles>`: exit when output is unchanged for N cycles
+- `-r, --no-rerun`: do not rerun the command on key-triggered refresh
+- `-s, --shotsdir <dir>`: directory for screenshots taken with the `s` key
 
 Keys while running:
 - `q` / `Ctrl+C`: quit
