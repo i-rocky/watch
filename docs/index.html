@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>watch — GNU watch for Windows that feels like Linux/macOS</title>
+<meta name="description" content="watch brings GNU watch to Windows: run any command on a refresh interval in an alternate-screen TUI, with diff highlighting, follow mode, and screenshot capture.">
+<style>
+:root {
+  --bg: #0d1117;
+  --panel: #161b22;
+  --border: #30363d;
+  --text: #e6edf3;
+  --muted: #8b949e;
+  --accent: #3fb950;
+  --accent-dim: #0f3d1e;
+  --good: #3fb950;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font: 16px/1.65 system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+code, pre, .term { font-family: ui-monospace, "SFMono-Regular", "Cascadia Code", Menlo, Consolas, monospace; }
+.wrap { max-width: 880px; margin: 0 auto; padding: 0 24px; }
+header { padding: 72px 0 40px; text-align: center; }
+.logo { font-size: 44px; font-weight: 700; letter-spacing: -1px; }
+.logo .bar { color: var(--accent); }
+.tagline { color: var(--muted); font-size: 20px; margin-top: 8px; }
+.badges { margin-top: 20px; display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+.badge {
+  border: 1px solid var(--border); border-radius: 999px;
+  padding: 4px 14px; font-size: 13px; color: var(--muted);
+}
+.badge.hot { border-color: var(--accent-dim); color: var(--accent); }
+.cta { margin-top: 28px; display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+.btn {
+  display: inline-block; padding: 10px 22px; border-radius: 8px;
+  text-decoration: none; font-weight: 600; font-size: 15px;
+}
+.btn.primary { background: var(--accent); color: #04121f; }
+.btn.ghost { border: 1px solid var(--border); color: var(--text); }
+.term {
+  background: #010409; border: 1px solid var(--border); border-radius: 10px;
+  padding: 18px 20px; font-size: 13.5px; line-height: 1.7; overflow-x: auto;
+  text-align: left; white-space: pre; color: #c9d1d9;
+}
+.term .dim { color: var(--muted); }
+.term .pct { color: var(--good); }
+.term .fill { color: var(--accent); }
+.hero-term { margin: 36px auto 0; max-width: 820px; }
+section { padding: 40px 0; border-top: 1px solid var(--border); }
+h2 { font-size: 26px; margin-bottom: 18px; letter-spacing: -0.5px; }
+h3 { font-size: 18px; margin: 22px 0 8px; }
+p { color: var(--muted); margin-bottom: 12px; }
+p strong, li strong { color: var(--text); }
+.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; margin-top: 20px; }
+.card {
+  background: var(--panel); border: 1px solid var(--border);
+  border-radius: 10px; padding: 18px 20px;
+}
+.card h3 { margin: 0 0 8px; font-size: 16px; }
+.card p { font-size: 14px; margin: 0; }
+pre.snippet {
+  background: #010409; border: 1px solid var(--border); border-radius: 8px;
+  padding: 14px 18px; font-size: 14px; overflow-x: auto; margin: 10px 0 18px;
+}
+table { width: 100%; border-collapse: collapse; font-size: 14.5px; margin: 14px 0; }
+th, td { text-align: left; padding: 9px 12px; border-bottom: 1px solid var(--border); }
+th { color: var(--muted); font-weight: 600; }
+td code { background: var(--panel); padding: 2px 6px; border-radius: 4px; font-size: 13px; }
+footer { padding: 36px 0 48px; color: var(--muted); font-size: 14px; text-align: center; }
+footer a { color: var(--accent); text-decoration: none; }
+a { color: var(--accent); }
+</style>
+</head>
+<body>
+
+<header class="wrap">
+  <div class="logo">wat<span class="bar">ch</span></div>
+  <div class="tagline">GNU <code>watch</code> for Windows that feels like Linux/macOS.</div>
+  <div class="badges">
+    <span class="badge hot">GNU-compatible flags</span>
+    <span class="badge">Alternate-screen TUI</span>
+    <span class="badge">Rust</span>
+    <span class="badge">Windows</span>
+  </div>
+  <div class="cta">
+    <a class="btn primary" href="#install">Install</a>
+    <a class="btn ghost" href="https://github.com/i-rocky/watch">GitHub</a>
+  </div>
+  <div class="term hero-term"><span class="dim">Every 2.0s: dir</span>                                  <span class="dim">DESKTOP-R0CKY: Tue Jun 10 14:32:08 2026</span>
+
+ Volume in drive C has no label.
+ Directory of C:\Users\rocky\project
+
+06/10/2026  02:31 PM    &lt;DIR&gt;          .
+06/10/2026  02:31 PM    &lt;DIR&gt;          src
+06/10/2026  02:32 PM             4,812 <span class="fill">build.log</span>
+06/10/2026  02:30 PM             1,094 Cargo.toml
+               2 File(s)          5,906 bytes</div>
+</header>
+
+<section class="wrap" id="why">
+  <h2>Why</h2>
+  <p>On Linux and macOS, <code>watch</code> is the tool you reach for to re-run a command
+  every few seconds and stare at the output. Windows never shipped it. This is GNU
+  <code>watch</code> rebuilt for Windows — mirroring GNU flags and behavior where possible,
+  so your muscle memory just works.</p>
+  <div class="grid">
+    <div class="card"><h3>Feels like the real thing</h3><p>Mirrors GNU watch flags and behavior where possible. <code>watch -n 2 "dir"</code> does exactly what you expect.</p></div>
+    <div class="card"><h3>Alternate-screen TUI</h3><p>Live updates in an alternate screen — no scrollback spam. Your terminal history stays clean when you quit.</p></div>
+    <div class="card"><h3>Diff highlighting</h3><p>Spot changes between runs with <code>-d</code>, or accumulate every change ever seen with <code>--differences=permanent</code>.</p></div>
+    <div class="card"><h3>Screenshot capture</h3><p>Press <code>s</code> while running to save a snapshot of the current output to <code>--shotsdir</code>.</p></div>
+  </div>
+</section>
+
+<section class="wrap" id="install">
+  <h2>Install</h2>
+  <h3>Scoop</h3>
+  <pre class="snippet">scoop bucket add rocky https://github.com/i-rocky/scoop-bucket
+scoop install watch</pre>
+  <h3>Cargo</h3>
+  <pre class="snippet">cargo install --git https://github.com/i-rocky/watch.git</pre>
+</section>
+
+<section class="wrap" id="usage">
+  <h2>Usage</h2>
+  <pre class="snippet">watch -n 2 "dir"
+watch -d "date /t"
+watch --differences=permanent "powershell -c Get-Date"
+watch -t -w -x "echo hello"</pre>
+  <h3>Common flags</h3>
+  <table>
+    <tr><th>Flag</th><th>What it does</th></tr>
+    <tr><td><code>-n, --interval &lt;secs&gt;</code></td><td>refresh interval (default 2.0s)</td></tr>
+    <tr><td><code>-d, --differences[=permanent]</code></td><td>highlight changes; <code>permanent</code> keeps every change highlighted</td></tr>
+    <tr><td><code>-t, --no-title</code></td><td>hide header</td></tr>
+    <tr><td><code>-w, --no-wrap</code></td><td>truncate long lines (alias: <code>--no-linewrap</code>)</td></tr>
+    <tr><td><code>-x, --exec</code></td><td>execute without a shell</td></tr>
+    <tr><td><code>-f, --follow</code></td><td>append output instead of clearing</td></tr>
+    <tr><td><code>-p, --precise</code></td><td>schedule runs on a fixed cadence instead of after each run</td></tr>
+    <tr><td><code>-b, --beep</code></td><td>beep when the command exits non-zero</td></tr>
+    <tr><td><code>-c, --color</code> / <code>-C, --no-color</code></td><td>force ANSI color handling on/off</td></tr>
+    <tr><td><code>-e, --errexit</code></td><td>freeze on non-zero exit, quit after a key press</td></tr>
+    <tr><td><code>-g, --chgexit</code></td><td>exit when the output changes</td></tr>
+    <tr><td><code>-q, --equexit &lt;cycles&gt;</code></td><td>exit when output is unchanged for N cycles</td></tr>
+    <tr><td><code>-r, --no-rerun</code></td><td>do not rerun the command on key-triggered refresh</td></tr>
+    <tr><td><code>-s, --shotsdir &lt;dir&gt;</code></td><td>directory for screenshots taken with the <code>s</code> key</td></tr>
+  </table>
+  <h3>Keys while running</h3>
+  <table>
+    <tr><th>Key</th><th>Action</th></tr>
+    <tr><td><code>q</code> / <code>Ctrl+C</code></td><td>quit</td></tr>
+    <tr><td><code>space</code></td><td>trigger immediate refresh</td></tr>
+    <tr><td><code>s</code></td><td>save screenshot (requires <code>--shotsdir</code>)</td></tr>
+  </table>
+</section>
+
+<footer class="wrap">
+  built by <a href="https://github.com/i-rocky">i-rocky</a> ·
+  <a href="https://github.com/i-rocky/watch">source on GitHub</a>
+</footer>
+
+</body>
+</html>
