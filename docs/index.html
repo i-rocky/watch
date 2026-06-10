@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>watch — GNU watch for Windows that feels like Linux/macOS</title>
 <meta name="description" content="watch brings GNU watch to Windows: run any command on a refresh interval in an alternate-screen TUI, with diff highlighting, follow mode, and screenshot capture.">
+<script src="https://cdn.jsdelivr.net/npm/x-zsh@0.7/x-zsh.min.js"></script>
 <style>
 :root {
   --bg: #0d1117;
@@ -90,16 +91,37 @@ a { color: var(--accent); }
     <a class="btn primary" href="#install">Install</a>
     <a class="btn ghost" href="https://github.com/i-rocky/watch">GitHub</a>
   </div>
-  <div class="term hero-term"><span class="dim">Every 2.0s: dir</span>                                  <span class="dim">DESKTOP-R0CKY: Tue Jun 10 14:32:08 2026</span>
+  <div class="hero-term">
+  <x-zsh os="windows" prompt-char="❯" height="300" loop loop-delay="3000">
+    cmd: watch -n 2 "dir"
+    clear:
+    Every 2.0s: dir                                  DESKTOP-R0CKY: Tue Jun 10 14:32:08 2026
 
- Volume in drive C has no label.
- Directory of C:\Users\rocky\project
+     Volume in drive C has no label.
+     Directory of C:\Users\rocky\project
 
-06/10/2026  02:31 PM    &lt;DIR&gt;          .
-06/10/2026  02:31 PM    &lt;DIR&gt;          src
-06/10/2026  02:32 PM             4,812 <span class="fill">build.log</span>
-06/10/2026  02:30 PM             1,094 Cargo.toml
-               2 File(s)          5,906 bytes</div>
+    06/10/2026  02:31 PM    &lt;DIR&gt;          .
+    06/10/2026  02:31 PM    &lt;DIR&gt;          src
+    06/10/2026  02:32 PM             4,812 build.log
+    06/10/2026  02:30 PM             1,094 Cargo.toml
+                   2 File(s)          5,906 bytes
+    delay[2000]:
+    clear:
+    Every 2.0s: dir                                  DESKTOP-R0CKY: Tue Jun 10 14:32:10 2026
+
+     Volume in drive C has no label.
+     Directory of C:\Users\rocky\project
+
+    06/10/2026  02:31 PM    &lt;DIR&gt;          .
+    06/10/2026  02:31 PM    &lt;DIR&gt;          src
+    06/10/2026  02:32 PM             6,037 build.log
+    06/10/2026  02:30 PM             1,094 Cargo.toml
+    06/10/2026  02:32 PM               218 watch.shot.png
+                   3 File(s)          7,349 bytes
+    key: q
+    note: q quits, space refreshes immediately
+  </x-zsh>
+  </div>
 </header>
 
 <section class="wrap" id="why">
